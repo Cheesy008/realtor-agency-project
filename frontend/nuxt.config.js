@@ -5,18 +5,19 @@ export default {
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
   */
-  mode: 'universal',
+  // mode: 'universal',
+  ssr: false,
   /*
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
   */
-  target: 'server',
+  // target: 'server',
   /*
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
+    titleTemplate: 'Риэлтерское агенство',
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -37,6 +38,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '@/plugins/vuelidate.js',
   ],
   /*
   ** Auto import components
@@ -55,12 +57,47 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {},
+  axios: {
+    baseUrl: process.env.BASE_URL
+  },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'data',
+          name: 'Authorization',
+          type: 'Bearer',
+          maxAge: false
+        },
+        user: {
+          property: 'data',
+        },
+        endpoints: {
+          login: {url: 'auth/login/', method: 'post'},
+          logout: {url: 'auth/logout/', method: 'post'},
+          user: {url: 'auth/user/', method: 'get'}
+        }
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/'
+    },
+    auth: {
+      cookie: false
+    }
+  },
+  router: {
+    middleware: ['auth']
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
@@ -68,18 +105,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
+      ligth: true,
     }
   },
   /*
