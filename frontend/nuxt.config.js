@@ -39,6 +39,7 @@ export default {
   */
   plugins: [
     '@/plugins/vuelidate.js',
+    '@/plugins/core-components.js',
   ],
   /*
   ** Auto import components

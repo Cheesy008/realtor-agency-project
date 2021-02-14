@@ -78,6 +78,12 @@ export default {
     AppSnackbar,
     AppDatepicker
   },
+  props: {
+    client: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       client: {
@@ -177,11 +183,6 @@ export default {
           });
       }
     },
-  },
-  async fetch({store, params}) {
-    if (store.state.auth.loggedIn) {
-      await store.dispatch("clients/retrieveClient", params.id);
-    }
   },
   created() {
     this.client = {...this.storedClient};

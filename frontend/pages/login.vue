@@ -36,7 +36,7 @@
 import { required, email, minLength } from "vuelidate/lib/validators";
 
 import { authValidationMixin } from "@/mixins/authValidationMixin";
-import AuthForm from "@/components/Forms/AuthForm";
+import AuthForm from "@/components/Auth/AuthForm";
 
 export default {
   components: {
@@ -77,7 +77,7 @@ export default {
           .loginWith("local", { data: payload })
           .then(res => {
             console.log(res);
-            this.$router.push({ name: "profile" });
+            // this.$router.push({ name: "index" });
           })
           .catch(err => console.log(err));
       }

@@ -36,10 +36,10 @@
 import { required, email, minLength } from "vuelidate/lib/validators";
 
 import { authValidationMixin } from "@/mixins/authValidationMixin";
-import AuthForm from "@/components/Forms/AuthForm";
+import AuthForm from "@/components/Auth/AuthForm";
 
 export default {
-    
+
 }
 </script>
 

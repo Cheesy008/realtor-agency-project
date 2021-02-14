@@ -6,9 +6,14 @@
       <v-toolbar-title>Риэлтерское агенство</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn text rounded to="/login">
+
+      <v-btn text rounded v-if="!$auth.loggedIn" to="/login">
         Войти
       </v-btn>
+      <v-btn text rounded v-else @click=" $auth.logout()" >
+        Выйти
+      </v-btn>
+
     </v-app-bar>
     <v-main>
       <v-container>

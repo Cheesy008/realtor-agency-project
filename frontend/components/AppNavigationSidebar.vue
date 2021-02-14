@@ -36,8 +36,9 @@ export default {
     return {
       navigationListItems: [
         {icon: 'mdi-account', title: 'Профиль', link: '/profile'},
-        {icon: 'mdi-office-building', title: 'Недвижимость', link: '/property'},
+        {icon: 'mdi-office-building', title: 'Недвижимость', link: '/realties'},
         {icon: 'mdi-handshake', title: 'Сделки', link: '/transactions'},
+        {icon: 'mdi-account-group', title: 'Клиенты', link: '/clients'},
       ],
     }
   }
