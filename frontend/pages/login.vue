@@ -1,5 +1,10 @@
 <template>
   <v-app>
+    <AppSnackbar
+      :text="snackbarErrorMessage"
+      :snackbar="snackbar"
+      @resetSnackbar="snackbar = $event"
+    />
     <AuthForm title="Вход">
       <v-text-field
         v-model="userInfo.email"
@@ -35,8 +40,8 @@
 <script>
 import { required, email, minLength } from "vuelidate/lib/validators";
 
-import { authValidationMixin } from "@/mixins/authValidationMixin";
-import AuthForm from "@/components/Auth/AuthForm";
+import { authValidationMixin } from "~/mixins/authValidationMixin";
+import AuthForm from "~/components/Auth/AuthForm";
 
 export default {
   components: {
@@ -50,7 +55,9 @@ export default {
         password: null,
       },
       showPassword: false,
-    };
+      snackbar: false,
+      snackbarErrorMessage: "Произошла ошибка во время авторизации"
+    }
   },
   validations: {
     userInfo: {
@@ -75,11 +82,10 @@ export default {
 
         this.$auth
           .loginWith("local", { data: payload })
-          .then(res => {
-            console.log(res);
-            // this.$router.push({ name: "index" });
-          })
-          .catch(err => console.log(err));
+          .catch(err => {
+            this.snackbar = true
+            console.log(err)
+          });
       }
     },
   },

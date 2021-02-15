@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import AppNavigationSidebar from "@/components/AppNavigationSidebar"
+import AppNavigationSidebar from "~/components/UI/AppNavigationSidebar"
 
 export default {
   components: {

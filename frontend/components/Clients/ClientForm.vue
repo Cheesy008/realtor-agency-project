@@ -9,12 +9,13 @@
   >
     <input ref="file" type="file" hidden @change="onPhotoPicked">
     <div class="v-card-align">
-      <v-card-title>Просмотр клиента</v-card-title>
+      <v-card-title>{{ mainTitle }}</v-card-title>
       <v-card-text>
         <v-form>
           <div>
 
-            <v-avatar
+            <template v-if="!isCreation">
+              <v-avatar
               class="profile"
               color="grey"
               size="164"
@@ -23,6 +24,7 @@
             </v-avatar>
 
             <v-btn class="ml-4" @click="onPickPhoto">Изменить фото</v-btn>
+            </template>
 
           </div>
 
@@ -47,16 +49,11 @@
             class="mt-3"
             type="submit"
             @click.prevent="sendForm"
-          >Редактировать
+          >{{ buttonText }}
           </v-btn>
         </v-form>
       </v-card-text>
     </div>
-
-    <AppSnackbar
-      :text="snackbarMessage"
-      :snackbar="snackbar"
-      @resetSnackbar="snackbar = $event"/>
 
   </v-card>
 </template>
@@ -68,33 +65,42 @@ import {
   maxLength,
   numeric,
 } from "vuelidate/lib/validators";
-import {mapMutations, mapActions, mapState} from "vuex";
+import {mapMutations, mapActions} from "vuex";
 
-import AppSnackbar from "~/components/AppSnackbar";
-import AppDatepicker from "~/components/AppDatepicker";
+import AppDatepicker from "~/components/UI/AppDatepicker";
 
 export default {
   components: {
-    AppSnackbar,
     AppDatepicker
   },
   props: {
     client: {
       type: Object,
+      default() {
+        return {
+          fio: "",
+          iin: "",
+          birthDate: null,
+          photo: null,
+        }
+      }
+    },
+    callbackFunction: {
+      type: Function,
       required: true
+    },
+    mainTitle: {
+      type: String,
+      required: true
+    },
+    buttonText: {
+      type: String,
+      required: true
+    },
+    isCreation: {
+      type: Boolean,
+      default: false
     }
-  },
-  data() {
-    return {
-      client: {
-        fio: "",
-        iin: "",
-        birthDate: null,
-        photo: null,
-      },
-      snackbarMessage: '',
-      snackbar: false
-    };
   },
   validations: {
     client: {
@@ -110,9 +116,6 @@ export default {
     },
   },
   computed: {
-    ...mapState("clients", {
-      storedClient: (state) => state.client,
-    }),
     fioErrors() {
       const errors = [];
       if (!this.$v.client.fio.$dirty) return errors;
@@ -142,50 +145,29 @@ export default {
       updateClient: "clients/UPDATE_CLIENT",
     }),
     ...mapActions({
-      sendUpdatedClient: "clients/editClient",
+      uploadClientPhoto: "clients/uploadClientPhoto"
     }),
     onPickPhoto() {
       this.$refs.file.click()
     },
     async onPhotoPicked(event) {
       const selectedPhoto = event.target.files[0];
+
       const fd = new FormData();
       fd.append('photo', selectedPhoto);
 
-      await this.$axios.post(`clients/${this.$route.params.id}/photo/upload`, fd, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-        .then(res => {
-          this.photoSrc = res.data
-          this.snackbarMessage = 'Фото успешно загружено'
-          this.snackbar = true
-        })
-        .catch(() => {
-          this.snackbarMessage = 'Произошла ошибка во время загрузки фото'
-          this.snackbar = true
-        })
+      const photo = await this.uploadClientPhoto({id: this.client.id, photo: fd})
+      this.photoSrc = `https://localhost:44349${photo}`
     },
     async sendForm() {
       this.$v.$touch();
 
       if (!this.$v.$error) {
         this.updateClient(this.client)
-        await this.sendUpdatedClient()
-          .then(() => {
-            this.snackbarMessage = 'Клиент успешно отредактирован'
-            this.snackbar = true
-          })
-          .catch(() => {
-            this.snackbarMessage = 'Произошла ошибка во время редактирования клиента'
-            this.snackbar = true
-          });
+        await this.callbackFunction()
+
       }
     },
-  },
-  created() {
-    this.client = {...this.storedClient};
   },
 };
 </script>

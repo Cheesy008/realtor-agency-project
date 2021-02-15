@@ -1,22 +1,17 @@
 <template>
   <div>
-    <v-btn class="mx-auto">Создать клиента</v-btn>
-    <v-card
-      max-width="600"
-      class="mx-auto">
-      <ClientList :clients="clients"/>
-    </v-card>
+    <ClientDataTable :clients="clients"/>
   </div>
 </template>
 
 <script>
 import {mapState} from "vuex"
 
-import ClientList from '~/components/Clients/ClientList';
+import ClientDataTable from "~/components/Clients/ClientDataTable";
 
 export default {
   components: {
-    ClientList
+    ClientDataTable
   },
   computed: {
     ...mapState('clients', {
@@ -25,7 +20,7 @@ export default {
   },
   async fetch({store}) {
     if (store.state.auth.loggedIn) {
-      await store.dispatch("clients/fetchClients");
+      await store.dispatch("clients/getClientList");
     }
   }
 

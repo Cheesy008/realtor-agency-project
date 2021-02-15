@@ -38,8 +38,9 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '@/plugins/vuelidate.js',
-    '@/plugins/core-components.js',
+    '~/plugins/vuelidate.js',
+    '~/plugins/core-components.js',
+    '~/plugins/repositories.js'
   ],
   /*
   ** Auto import components
