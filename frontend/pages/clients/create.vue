@@ -37,10 +37,9 @@ export default {
       this.snackbar = true
       try {
         await this.createClient()
-        this.snackbarMessage = 'Клиент успешно отредактирован'
         await this.$router.push({name: 'clients'})
       } catch (e) {
-        this.snackbarMessage = 'Произошла ошибка во время редактирования клиента'
+        this.snackbarMessage = e.response.data.message
       }
     },
   },

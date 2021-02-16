@@ -44,23 +44,11 @@ export const actions = {
   },
   async createClient({state}) {
     const client = state.client;
-    console.log(client)
-    try {
-      const res = await this.$repositories.clients.create(client);
-      return res
-    } catch (err) {
-      console.log(err)
-      return err
-    }
+    return this.$repositories.clients.create(client);
   },
   async updateClient({state}) {
     const client = state.client;
-    try {
-      return await this.$repositories.clients.update(client.id, client);
-    } catch (err) {
-      console.log(err)
-      return err
-    }
+    return this.$repositories.clients.update(client.id, client)
   },
   async getRealtiesByClient({commit}, id) {
     try {
