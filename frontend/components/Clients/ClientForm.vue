@@ -1,61 +1,45 @@
 <template>
-  <v-card
-    elevation="2"
-    outlined
-    shaped
-    tile
-    class="mx-auto mt-5"
-    width="850"
-  >
-    <input ref="file" type="file" hidden @change="onPhotoPicked">
-    <div class="v-card-align">
-      <v-card-title>{{ mainTitle }}</v-card-title>
-      <v-card-text>
-        <v-form>
-          <div>
+  <v-form :class="styles">
+    <div>
+      <input ref="file" type="file" hidden @change="onPhotoPicked">
+      <template v-if="!isCreation">
+        <v-avatar
+          class="profile"
+          color="grey"
+          size="164"
+          tile>
+          <v-img :src="photoSrc"></v-img>
+        </v-avatar>
 
-            <template v-if="!isCreation">
-              <v-avatar
-              class="profile"
-              color="grey"
-              size="164"
-              tile>
-              <v-img :src="photoSrc"></v-img>
-            </v-avatar>
+        <v-btn class="ml-4" @click="onPickPhoto">Изменить фото</v-btn>
+      </template>
 
-            <v-btn class="ml-4" @click="onPickPhoto">Изменить фото</v-btn>
-            </template>
-
-          </div>
-
-          <v-text-field
-            label="ФИО"
-            :error-messages="fioErrors"
-            v-model="client.fio"
-            @input="$v.client.fio.$touch()"
-          ></v-text-field>
-
-          <v-text-field
-            label="ИИН"
-            :error-messages="iinErrors"
-            v-model="client.iin"
-            @input="$v.client.iin.$touch()"
-          ></v-text-field>
-
-          <AppDatepicker :date.sync="client.birthDate"/>
-
-          <v-btn
-            color="info"
-            class="mt-3"
-            type="submit"
-            @click.prevent="sendForm"
-          >{{ buttonText }}
-          </v-btn>
-        </v-form>
-      </v-card-text>
     </div>
 
-  </v-card>
+    <v-text-field
+      label="ФИО"
+      :error-messages="fioErrors"
+      v-model="client.fio"
+      @input="$v.client.fio.$touch()"
+    ></v-text-field>
+
+    <v-text-field
+      label="ИИН"
+      :error-messages="iinErrors"
+      v-model="client.iin"
+      @input="$v.client.iin.$touch()"
+    ></v-text-field>
+
+    <AppDatepicker :date.sync="client.birthDate"/>
+
+    <v-btn
+      color="info"
+      class="mt-3"
+      type="submit"
+      @click.prevent="sendForm"
+    >{{ buttonText }}
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
@@ -74,6 +58,10 @@ export default {
     AppDatepicker
   },
   props: {
+    styles: {
+      type: String,
+      required: false
+    },
     client: {
       type: Object,
       default() {
@@ -87,10 +75,6 @@ export default {
     },
     callbackFunction: {
       type: Function,
-      required: true
-    },
-    mainTitle: {
-      type: String,
       required: true
     },
     buttonText: {
@@ -173,9 +157,5 @@ export default {
 </script>
 
 <style lang="scss">
-.v-card-align {
-  width: 70%;
-  margin: auto;
-  padding-top: 20px;
-}
+
 </style>

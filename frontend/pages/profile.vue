@@ -1,10 +1,37 @@
 <template>
-  <div></div>
+  <div>
+    <ProfileForm :user-info="user" />
+  </div>
 </template>
 
 <script>
-export default {
+import {mapActions, mapState} from "vuex";
 
+import ProfileForm from "~/components/Profile/ProfileForm";
+
+export default {
+  components: {
+    ProfileForm
+  },
+  data() {
+    return {
+      user: {}
+    }
+  },
+  computed: {
+    ...mapState("users", {
+      storedUser: (state) => state.user,
+    }),
+  },
+  async fetch({store, params}) {
+    if (store.state.auth.loggedIn) {
+      await store.dispatch("users/getCurrentUser");
+    }
+  },
+  created() {
+    this.user = {...this.storedUser};
+    console.log("A TUUT", this.user)
+  }
 }
 </script>
 

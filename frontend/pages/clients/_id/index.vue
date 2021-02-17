@@ -7,7 +7,14 @@
     />
     <v-container>
       <v-card>
-        <v-tabs v-model="tab" background-color="primary" dark>
+        <v-toolbar
+          color="cyan"
+          dark
+          flat
+        >
+          <v-toolbar-title>Клиент</v-toolbar-title>
+        </v-toolbar>
+        <v-tabs v-model="tab" align-with-title>
           <v-tab v-for="item in items" :key="item.tab">
             {{ item.tab }}
           </v-tab>
@@ -35,6 +42,7 @@ import ClientRealtiesList from "~/components/Clients/ClientRealtiesList";
 export default {
   components: {
     ClientForm,
+    ClientRealtiesList
   },
   data() {
     return {
@@ -44,16 +52,19 @@ export default {
       tab: null,
       items: [
         {
-          tab: 'Клиент',
+          tab: 'Личная информация',
           content: 'ClientForm',
           props: {
+            styles: 'v-card-align',
             client: {},
             callbackFunction: this.sendForm,
-            mainTitle: "Просмотр клиента",
             buttonText: "Редактировать",
           }
         },
-        {tab: 'Недвижимость клиента', content: 'ClientRealtiesList'}
+        {
+          tab: 'Недвижимость',
+          content: 'ClientRealtiesList'
+        }
       ]
     }
   },
@@ -89,7 +100,7 @@ export default {
 
 <style lang="scss">
 .v-card-align {
-  width: 70%;
+  width: 50%;
   margin: auto;
   padding-top: 20px;
 }
