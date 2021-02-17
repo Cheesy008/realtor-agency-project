@@ -140,8 +140,7 @@ export default {
       const fd = new FormData();
       fd.append('photo', selectedPhoto);
 
-      const photo = await this.uploadClientPhoto({id: this.client.id, photo: fd})
-      this.photoSrc = `https://localhost:44349${photo}`
+      this.photoSrc = await this.uploadClientPhoto({id: this.client.id, photo: fd})
     },
     async sendForm() {
       this.$v.$touch();

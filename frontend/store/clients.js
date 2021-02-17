@@ -64,7 +64,6 @@ export const actions = {
       return res.data.message
     } catch (err) {
       console.log(err)
-      return err
     }
   }
 }
