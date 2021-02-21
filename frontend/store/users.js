@@ -4,6 +4,9 @@ export const state = () => ({
 })
 
 export const getters = {
+  getUserListExceptCurrent: state => currentUserId => {
+    return state.list.filter(user => user.id !== currentUserId)
+  }
 }
 
 export const mutations = {
@@ -12,9 +15,6 @@ export const mutations = {
   },
   SET_USER(state, payload) {
     state.user = payload
-  },
-  UPDATE_USER(state, payload) {
-    state.user = {...state.user, ...payload}
   }
 }
 
@@ -43,13 +43,11 @@ export const actions = {
       console.log(err)
     }
   },
-  async createUser({state}) {
-    const client = state.client;
-    return this.$repositories.users.create(client);
+  async createUser({state}, user) {
+    return this.$repositories.users.create(user);
   },
-  async updateUser({state}) {
-    const user = state.user;
-    return this.$repositories.users.update(user.id, user)
+  async updateUser({state}, {userId, user}) {
+    return this.$repositories.users.update(userId, user)
   }
 }
 

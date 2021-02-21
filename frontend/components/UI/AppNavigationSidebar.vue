@@ -39,6 +39,7 @@ export default {
         {icon: 'mdi-office-building', title: 'Недвижимость', link: '/realties'},
         {icon: 'mdi-handshake', title: 'Сделки', link: '/transactions'},
         {icon: 'mdi-account-group', title: 'Клиенты', link: '/clients'},
+        {icon: 'mdi-account-supervisor', title: 'Сотрудники', link: '/users'},
       ],
     }
   }

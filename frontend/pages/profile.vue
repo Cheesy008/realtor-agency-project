@@ -30,7 +30,6 @@ export default {
   },
   created() {
     this.user = {...this.storedUser};
-    console.log("A TUUT", this.user)
   }
 }
 </script>

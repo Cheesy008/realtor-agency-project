@@ -148,7 +148,6 @@ export default {
       if (!this.$v.$error) {
         this.updateClient(this.client)
         await this.callbackFunction()
-
       }
     },
   },

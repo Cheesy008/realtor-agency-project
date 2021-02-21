@@ -16,11 +16,6 @@
             main-title="Создание клиента"
             button-text="Создать"
           />
-          <AppSnackbar
-            :text="snackbarMessage"
-            :snackbar="snackbar"
-            @resetSnackbar="snackbar = $event"
-          />
         </v-card-text>
       </div>
     </v-card>
@@ -36,23 +31,17 @@ export default {
   components: {
     ClientForm,
   },
-  data() {
-    return {
-      snackbarMessage: '',
-      snackbar: false
-    }
-  },
   methods: {
     ...mapActions({
       createClient: "clients/createClient",
     }),
     async sendForm() {
-      this.snackbar = true
       try {
         await this.createClient()
         await this.$router.push({name: 'clients'})
       } catch (e) {
-        this.snackbarMessage = e.response.data.message
+        this.$store.commit("snackbar/SET_SNACKBAR", true)
+        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", e.response.data.message)
       }
     },
   },

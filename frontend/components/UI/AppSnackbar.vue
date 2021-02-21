@@ -11,25 +11,23 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
-  props: {
-    text: {
-      type: String,
-      required: true,
-    },
-    snackbar: {
-      type: Boolean,
-      default: false
-    }
-  },
   data() {
     return {
       timeout: 2000,
     };
   },
+  computed: {
+    ...mapState('snackbar', {
+      text: state => state.snackbarMessage,
+      snackbar: state => state.snackbar
+    }),
+  },
   methods: {
     resetSnackbar() {
-      this.$emit('resetSnackbar', false)
+      this.$store.commit("snackbar/SET_SNACKBAR", false)
     }
   }
 };

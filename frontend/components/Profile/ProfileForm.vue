@@ -7,12 +7,6 @@
     class="mx-auto mt-5"
     width="850"
   >
-    <AppSnackbar
-      :text="snackbarMessage"
-      :snackbar="snackbar"
-      @resetSnackbar="snackbar = $event"
-    />
-
     <div class="v-card-align">
       <v-card-title>Ваш профиль</v-card-title>
       <v-card-text>
@@ -86,29 +80,18 @@ export default {
       },
     }
   },
-  data() {
-    return {
-      snackbarMessage: '',
-      snackbar: false,
-    }
-  },
   computed: {},
   methods: {
-    ...mapMutations({
-      updateUser: "users/UPDATE_USER",
-    }),
     ...mapActions({
-      sendUpdatedUser: "users/updateUser",
+      updateUser: "users/updateUser",
     }),
     async sendForm() {
-      this.updateUser(this.userInfo)
-
-      this.snackbar = true
+      this.$store.commit("snackbar/SET_SNACKBAR", true)
       try {
-        await this.sendUpdatedUser()
-        this.snackbarMessage = 'Профиль успешно отредактирован'
+        await this.updateUser({userId: this.userInfo.id, user: this.userInfo})
+        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", 'Профиль успешно отредактирован')
       } catch (e) {
-        this.snackbarMessage = e.response.data.message
+        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", e.response.data.message)
       }
     }
   },

@@ -5,9 +5,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  getClient(state) {
-    return state.client
-  }
+
 }
 
 export const mutations = {
@@ -43,8 +41,7 @@ export const actions = {
     }
   },
   async createClient({state}) {
-    const client = state.client;
-    return this.$repositories.clients.create(client);
+    return this.$repositories.clients.create(state.client);
   },
   async updateClient({state}) {
     const client = state.client;

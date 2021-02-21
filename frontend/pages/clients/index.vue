@@ -23,7 +23,6 @@ export default {
       await store.dispatch("clients/getClientList");
     }
   }
-
 }
 </script>
 

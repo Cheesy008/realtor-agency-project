@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <AppNavigationSidebar v-if="$auth.loggedIn" />
-
+    <AppSnackbar />
     <v-app-bar app color="primary" dark>
       <v-toolbar-title>Риэлтерское агенство</v-toolbar-title>
 
@@ -25,10 +25,12 @@
 
 <script>
 import AppNavigationSidebar from "~/components/UI/AppNavigationSidebar"
+import AppSnackbar from "~/components/UI/AppSnackbar";
 
 export default {
   components: {
     AppNavigationSidebar,
+    AppSnackbar
   }
 };
 </script>

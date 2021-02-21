@@ -39,7 +39,6 @@ export default {
   */
   plugins: [
     '~/plugins/vuelidate.js',
-    '~/plugins/core-components.js',
     '~/plugins/repositories.js'
   ],
   /*

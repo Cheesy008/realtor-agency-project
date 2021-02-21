@@ -1,12 +1,7 @@
 <template>
   <div>
-    <AppSnackbar
-      :text="snackbarMessage"
-      :snackbar="snackbar"
-      @resetSnackbar="snackbar = $event"
-    />
     <v-container>
-      <v-card>
+      <v-card min-height="700">
         <v-toolbar
           color="cyan"
           dark
@@ -46,9 +41,6 @@ export default {
   },
   data() {
     return {
-      snackbarMessage: '',
-      snackbar: false,
-
       tab: null,
       items: [
         {
@@ -70,7 +62,8 @@ export default {
   },
   computed: {
     ...mapState("clients", {
-      storedClient: (state) => state.client,
+      storedClient: state => state.client,
+      realtiesByClient: state => state.realtiesByClient
     }),
   },
   methods: {
@@ -78,18 +71,19 @@ export default {
       updateClient: "clients/updateClient",
     }),
     async sendForm() {
-      this.snackbar = true
+      this.$store.commit("snackbar/SET_SNACKBAR", true)
       try {
         await this.updateClient()
-        this.snackbarMessage = 'Клиент успешно отредактирован'
+        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", "Клиент успешно отредактирован")
       } catch (e) {
-        this.snackbarMessage = e.response.data.message
+        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",  e.response.data.message)
       }
     },
   },
   async fetch({store, params}) {
     if (store.state.auth.loggedIn) {
       await store.dispatch("clients/getClient", params.id);
+      await store.dispatch("clients/getRealtiesByClient", params.id);
     }
   },
   created() {

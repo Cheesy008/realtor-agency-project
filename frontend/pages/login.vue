@@ -1,10 +1,5 @@
 <template>
   <v-app>
-    <AppSnackbar
-      :text="snackbarErrorMessage"
-      :snackbar="snackbar"
-      @resetSnackbar="snackbar = $event"
-    />
     <AuthForm title="Вход">
       <v-text-field
         v-model="userInfo.email"
@@ -55,8 +50,6 @@ export default {
         password: null,
       },
       showPassword: false,
-      snackbar: false,
-      snackbarErrorMessage: "Произошла ошибка во время авторизации"
     }
   },
   validations: {
@@ -83,7 +76,9 @@ export default {
         this.$auth
           .loginWith("local", { data: payload })
           .catch(err => {
-            this.snackbar = true
+            this.$store.commit("snackbar/SET_SNACKBAR", true)
+            this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",
+              "Произошла ошибка авторизации")
             console.log(err)
           });
       }
