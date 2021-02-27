@@ -86,12 +86,11 @@ export default {
       updateUser: "users/updateUser",
     }),
     async sendForm() {
-      this.$store.commit("snackbar/SET_SNACKBAR", true)
       try {
         await this.updateUser({userId: this.userInfo.id, user: this.userInfo})
-        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", 'Профиль успешно отредактирован')
+        this.$notifier.showMessage("Профиль успешно отредактирован")
       } catch (e) {
-        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", e.response.data.message)
+        this.$notifier.showMessage(e.response.data.message)
       }
     }
   },

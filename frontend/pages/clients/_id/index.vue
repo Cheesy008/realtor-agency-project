@@ -71,12 +71,11 @@ export default {
       updateClient: "clients/updateClient",
     }),
     async sendForm() {
-      this.$store.commit("snackbar/SET_SNACKBAR", true)
       try {
         await this.updateClient()
-        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", "Клиент успешно отредактирован")
+        this.$notifier.showMessage("Клиент успешно отредактирован")
       } catch (e) {
-        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",  e.response.data.message)
+        this.$notifier.showMessage(e.response.data.message)
       }
     },
   },

@@ -39,7 +39,10 @@ export default {
   */
   plugins: [
     '~/plugins/vuelidate.js',
-    '~/plugins/repositories.js'
+    '~/plugins/repositories.js',
+    '~/plugins/ability.js',
+    '~/plugins/casl.js',
+    '~/plugins/notifier.js',
   ],
   /*
   ** Auto import components

@@ -1,9 +1,9 @@
 <template>
-  <v-snackbar :value="snackbar" @input="resetSnackbar" :timeout="timeout">
-    {{ text }}
+  <v-snackbar :value="show" @input="show = false" :timeout="timeout">
+    {{ message }}
 
     <template v-slot:action="{ attrs }">
-      <v-btn color="blue" text v-bind="attrs" @click="resetSnackbar">
+      <v-btn color="blue" text v-bind="attrs" @click="show = false">
         Закрыть
       </v-btn>
     </template>
@@ -11,24 +11,21 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
-
 export default {
   data() {
     return {
       timeout: 2000,
+      show: false,
+      message: "",
     };
   },
-  computed: {
-    ...mapState('snackbar', {
-      text: state => state.snackbarMessage,
-      snackbar: state => state.snackbar
-    }),
-  },
-  methods: {
-    resetSnackbar() {
-      this.$store.commit("snackbar/SET_SNACKBAR", false)
-    }
+  created() {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === "snackbar/SET_SNACKBAR_MESSAGE") {
+        this.message = state.snackbar.snackbarMessage;
+        this.show = true;
+      }
+    });
   }
 };
 </script>

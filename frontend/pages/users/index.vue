@@ -173,26 +173,21 @@ export default {
       this.dialog = true
     },
     async save() {
-      this.$store.commit("snackbar/SET_SNACKBAR", true)
       if (!this.userInfo.id) {
         try {
           await this.createUser(this.userInfo)
-          this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",
-            "Пользователь успешно создан")
+          this.$notifier.showMessage("Пользователь успешно создан")
         } catch (e) {
           console.log(e)
-          this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",
-            "Произошла ошибка во время создания пользователя")
+          this.$notifier.showMessage("Произошла ошибка во время создания пользователя")
         }
       } else {
         try {
           await this.updateUser({userId: this.userInfo.id, user: this.userInfo})
-          this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",
-            "Пользователь успешно отредактирован")
+          this.$notifier.showMessage("Пользователь успешно отредактирован")
         } catch (e) {
           console.log(e)
-          this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",
-            "Произошла ошибка во время редактирования пользователя")
+          this.$notifier.showMessage("Произошла ошибка во время редактирования пользователя")
         }
       }
       await this.getUserList()

@@ -76,9 +76,7 @@ export default {
         this.$auth
           .loginWith("local", { data: payload })
           .catch(err => {
-            this.$store.commit("snackbar/SET_SNACKBAR", true)
-            this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE",
-              "Произошла ошибка авторизации")
+            this.$notifier.showMessage("Ошибка авторизации")
             console.log(err)
           });
       }

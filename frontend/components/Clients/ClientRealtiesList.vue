@@ -42,17 +42,16 @@ export default {
       getRealtiesByClient: "clients/getRealtiesByClient",
     }),
     async createRealtyWithOwner(realty) {
-      this.$store.commit("snackbar/SET_SNACKBAR", true)
       try {
         const resp = await this.createRealty(realty);
         const realtyId = resp.data.data;
         const ownerId = this.$route.params.id;
         await this.addRealtyOwner({ realtyId, ownerId });
         await this.getRealtiesByClient(ownerId);
-        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", "Недвижимость создана")
+        this.$notifier.showMessage("Недвижимость создана")
       } catch (e) {
         console.log(e);
-        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", "Произошла ошибка во время создания")
+        this.$notifier.showMessage("Произошла ошибка во время создания")
       }
     },
   },

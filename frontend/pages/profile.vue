@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProfileForm :user-info="user" />
+    <ProfileForm :user-info="user" v-if="$ability.cannot('read', 'all')"/>
   </div>
 </template>
 

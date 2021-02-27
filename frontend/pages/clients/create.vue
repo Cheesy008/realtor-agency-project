@@ -40,8 +40,7 @@ export default {
         await this.createClient()
         await this.$router.push({name: 'clients'})
       } catch (e) {
-        this.$store.commit("snackbar/SET_SNACKBAR", true)
-        this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", e.response.data.message)
+        this.$notifier.showMessage(e.response.data.message)
       }
     },
   },
