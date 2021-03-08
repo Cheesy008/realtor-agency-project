@@ -19,13 +19,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("users", {
-      storedUser: (state) => state.user,
-    }),
-  },
-  async fetch({store, params}) {
-    if (store.getters['users/isAuthenticated']) {
-      await store.dispatch("users/getCurrentUser");
+    storedUser() {
+      return this.$store.state.auth.user
     }
   },
   created() {

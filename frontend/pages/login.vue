@@ -74,12 +74,12 @@ export default {
           Password: this.userInfo.password,
         }
 
-        try {
-          await this.$store.dispatch('users/authenticateUser', payload)
-          await this.$router.push({name: 'profile'})
-        } catch (e) {
-          this.$notifier.showMessage(e.response.data.message)
-        }
+        this.$auth
+          .loginWith("local", { data: payload })
+          .catch(err => {
+            this.$store.commit("snackbar/SET_SNACKBAR_MESSAGE", "Произошла ошибка авторизации")
+            console.log(err)
+          });
       }
     },
   },

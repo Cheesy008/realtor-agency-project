@@ -6,6 +6,7 @@ export default {
   ** See https://nuxtjs.org/api/configuration-mode
   */
   mode: 'universal',
+  // ssr: false,
   /*
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
@@ -39,9 +40,8 @@ export default {
     '~/plugins/vuelidate.js',
     '~/plugins/repositories.js',
     // '~/plugins/ability.js',
-    '~/plugins/casl.js',
+    // '~/plugins/casl.js',
     '~/plugins/notifier.js',
-    '~/plugins/axios.js',
   ],
   /*
   ** Auto import components
@@ -60,7 +60,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'cookie-universal-nuxt',
+    '@nuxtjs/auth-next',
   ],
   /*
   ** Axios module configuration
@@ -68,6 +68,33 @@ export default {
   */
   axios: {
     baseUrl: process.env.BASE_URL
+  },
+  auth: {
+    localStorage: false,
+    strategies: {
+      local: {
+        token: {
+          property: 'data',
+          name: 'Authorization',
+          type: 'Bearer',
+          maxAge: false
+        },
+        user: {
+          property: 'data',
+        },
+        endpoints: {
+          login: {url: 'auth/login/', method: 'post'},
+          logout: {url: 'auth/logout/', method: 'post'},
+          user: {url: 'auth/user/', method: 'get'}
+        }
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/'
+    }
   },
   router: {
     middleware: ['auth']

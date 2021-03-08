@@ -4,7 +4,7 @@ import RealtiesRepository from "./RealtiesRepository";
 
 export default $axios => ({
   clients: new ClientsRepository('clients', $axios),
-  users: new UsersRepository('Users', $axios, 'Auth/user'),
+  users: new UsersRepository('Users', $axios),
   realties: new RealtiesRepository('realties', $axios),
 })
 
