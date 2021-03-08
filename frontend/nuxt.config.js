@@ -5,8 +5,7 @@ export default {
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
   */
-  // mode: 'universal',
-  ssr: false,
+  mode: 'universal',
   /*
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
@@ -20,19 +19,18 @@ export default {
     titleTemplate: 'Риэлтерское агенство',
     title: process.env.npm_package_name || '',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
   /*
   ** Global CSS
   */
-  css: [
-  ],
+  css: [],
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
@@ -40,9 +38,10 @@ export default {
   plugins: [
     '~/plugins/vuelidate.js',
     '~/plugins/repositories.js',
-    '~/plugins/ability.js',
+    // '~/plugins/ability.js',
     '~/plugins/casl.js',
     '~/plugins/notifier.js',
+    '~/plugins/axios.js',
   ],
   /*
   ** Auto import components
@@ -61,7 +60,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
+    'cookie-universal-nuxt',
   ],
   /*
   ** Axios module configuration
@@ -69,35 +68,6 @@ export default {
   */
   axios: {
     baseUrl: process.env.BASE_URL
-  },
-  auth: {
-    strategies: {
-      local: {
-        token: {
-          property: 'data',
-          name: 'Authorization',
-          type: 'Bearer',
-          maxAge: false
-        },
-        user: {
-          property: 'data',
-        },
-        endpoints: {
-          login: {url: 'auth/login/', method: 'post'},
-          logout: {url: 'auth/logout/', method: 'post'},
-          user: {url: 'auth/user/', method: 'get'}
-        }
-      }
-    },
-    redirect: {
-      login: '/login',
-      logout: '/',
-      callback: '/login',
-      home: '/'
-    },
-    auth: {
-      cookie: false
-    }
   },
   router: {
     middleware: ['auth']
@@ -116,6 +86,5 @@ export default {
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/
   */
-  build: {
-  }
+  build: {}
 }

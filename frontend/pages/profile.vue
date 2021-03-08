@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProfileForm :user-info="user" v-if="$ability.cannot('read', 'all')"/>
+    <ProfileForm :user-info="user" />
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
     }),
   },
   async fetch({store, params}) {
-    if (store.state.auth.loggedIn) {
+    if (store.getters['users/isAuthenticated']) {
       await store.dispatch("users/getCurrentUser");
     }
   },

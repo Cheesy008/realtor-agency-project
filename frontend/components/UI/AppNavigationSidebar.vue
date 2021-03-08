@@ -4,9 +4,9 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
-            {{ $auth.user.fio }}
+            {{ user.fio }}
           </v-list-item-title>
-          <v-list-item-subtitle> {{ $auth.user.email }}</v-list-item-subtitle>
+          <v-list-item-subtitle> {{ user.email }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
   data() {
     return {
@@ -42,6 +44,11 @@ export default {
         {icon: 'mdi-account-supervisor', title: 'Сотрудники', link: '/users'},
       ],
     }
+  },
+  computed: {
+    ...mapState('users', {
+      user: state => state.currentUser
+    })
   }
 };
 </script>

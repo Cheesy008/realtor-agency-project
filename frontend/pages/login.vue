@@ -25,7 +25,8 @@
           class="mt-3"
           type="submit"
           @click.prevent="submitForm"
-          >Войти</v-btn
+        >Войти
+        </v-btn
         >
       </v-card-actions>
     </AuthForm>
@@ -33,9 +34,9 @@
 </template>
 
 <script>
-import { required, email, minLength } from "vuelidate/lib/validators";
+import {required, email, minLength} from "vuelidate/lib/validators";
 
-import { authValidationMixin } from "~/mixins/authValidationMixin";
+import {authValidationMixin} from "~/mixins/authValidationMixin";
 import AuthForm from "~/components/Auth/AuthForm";
 
 export default {
@@ -65,20 +66,20 @@ export default {
     },
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.$v.$touch();
       if (!this.$v.$error) {
         const payload = {
           Email: this.userInfo.email,
           Password: this.userInfo.password,
-        };
+        }
 
-        this.$auth
-          .loginWith("local", { data: payload })
-          .catch(err => {
-            this.$notifier.showMessage("Ошибка авторизации")
-            console.log(err)
-          });
+        try {
+          await this.$store.dispatch('users/authenticateUser', payload)
+          await this.$router.push({name: 'profile'})
+        } catch (e) {
+          this.$notifier.showMessage(e.response.data.message)
+        }
       }
     },
   },

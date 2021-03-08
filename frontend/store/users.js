@@ -1,11 +1,17 @@
 export const state = () => ({
   list: [],
   user: {},
+
+  currentUser: {},
+  token: null
 })
 
 export const getters = {
-  getUserListExceptCurrent: state => currentUserId => {
-    return state.list.filter(user => user.id !== currentUserId)
+  getUserListExceptCurrent(state) {
+    return state.list.filter(user => user.id !== state.currentUser.id)
+  },
+  isAuthenticated(state) {
+    return state.token != null;
   }
 }
 
@@ -15,10 +21,35 @@ export const mutations = {
   },
   SET_USER(state, payload) {
     state.user = payload
+  },
+
+  SET_TOKEN(state, token) {
+    state.token = token;
+  },
+  CLEAR_TOKEN(state) {
+    state.token = null;
+  },
+  SET_CURRENT_USER(state, payload) {
+    state.currentUser = payload
   }
 }
 
 export const actions = {
+  async authenticateUser({commit}, payload) {
+    const loginResp = await this.$axios.post('auth/login/', payload)
+    const token = loginResp.data.data
+
+    commit('SET_TOKEN', token)
+    this.$cookies.set('Bearer', token)
+    this.$axios.setHeader('Authorization', `Bearer ${token}`)
+
+    const userResp = await this.$repositories.users.currentUser()
+    commit('SET_CURRENT_USER', userResp.data.data)
+  },
+  logout({commit}) {
+    commit("CLEAR_TOKEN");
+    this.$cookies.remove("Bearer");
+  },
   async getUserList({commit}) {
     try {
       const res = await this.$repositories.users.all();

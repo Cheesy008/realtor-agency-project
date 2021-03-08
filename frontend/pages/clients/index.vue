@@ -19,7 +19,7 @@ export default {
     })
   },
   async fetch({store}) {
-    if (store.state.auth.loggedIn) {
+    if (store.getters['users/isAuthenticated']) {
       await store.dispatch("clients/getClientList");
     }
   }

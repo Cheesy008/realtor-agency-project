@@ -80,7 +80,7 @@ export default {
     },
   },
   async fetch({store, params}) {
-    if (store.state.auth.loggedIn) {
+    if (store.getters['users/isAuthenticated']) {
       await store.dispatch("clients/getClient", params.id);
       await store.dispatch("clients/getRealtiesByClient", params.id);
     }

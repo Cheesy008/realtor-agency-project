@@ -9,4 +9,5 @@ export default class UsersRepository extends BaseRepository {
   currentUser() {
     return this.$axios.get(`${this.currentUserResource}`)
   }
+
 }

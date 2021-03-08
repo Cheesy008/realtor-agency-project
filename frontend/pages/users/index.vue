@@ -127,7 +127,7 @@ export default {
     },
     userList() {
       const res = JSON.parse(
-        JSON.stringify(this.$store.getters["users/getUserListExceptCurrent"](this.$auth.user.id))
+        JSON.stringify(this.$store.getters["users/getUserListExceptCurrent"])
       )
       res.forEach(user => {
         switch (user.role) {
@@ -195,7 +195,7 @@ export default {
     }
   },
   async fetch({store}) {
-    if (store.state.auth.loggedIn) {
+    if (store.getters['users/isAuthenticated']) {
       await store.dispatch("users/getUserList");
     }
   }

@@ -1,3 +1,3 @@
-export default c = can => {
+export default (user) => {
   can('read', 'aga')
 }

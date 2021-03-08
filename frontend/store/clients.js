@@ -4,9 +4,6 @@ export const state = () => ({
   realtiesByClient: []
 })
 
-export const getters = {
-
-}
 
 export const mutations = {
   SET_CLIENT_LIST(state, payload) {
